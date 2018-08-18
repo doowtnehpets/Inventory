@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Inventory</string>
+
+    <!-- Tools Strings -->
+    <string name="tools_example_text">Example text. Used to fill a text view for previewing layouts.</string>
+
+    <!-- Menu items -->
+    <string name="action_insert_dummy_data">Insert dummy data</string>
+
+    <!-- Dummy Data -->
+    <string name="dummy_data_product_name">Tales of the Sea</string>
+    <string name="dummy_data_price">0.00</string>
+    <string name="dummy_data_supplier_name">Jones Books</string>
+    <string name="dummy_data_supplier_phone_number">15555555555</string>
+
+</resources>
