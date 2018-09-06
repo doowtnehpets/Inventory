@@ -4,10 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.android.inventory.data.BookContract.BookEntry;
@@ -25,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set the action for the FloatingAction
+        FloatingActionButton floatingActionButton = findViewById(R.id.activity_main_floating_action_button);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Start the editor activity once implemented
+            }
+        });
 
         bookDbHelper = new BookDbHelper(this);
     }
@@ -110,9 +120,6 @@ public class MainActivity extends AppCompatActivity {
      * Add a pet to the database using made up data
      */
     private void insertBook() {
-        // Get a writable copy of the database
-        SQLiteDatabase sqLiteDatabase = bookDbHelper.getWritableDatabase();
-
         // Create a ContentValues object to insert a row into the database
         ContentValues contentValues = new ContentValues();
         contentValues.put(BookEntry.COLUMN_BOOK_PRODUCT_NAME, getString(R.string.dummy_data_product_name));
@@ -122,17 +129,13 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE_NUMBER, getString(R.string.dummy_data_supplier_phone_number));
 
         // Insert a new row using the dummy data
-        long rowId = sqLiteDatabase.insert(BookEntry.TABLE_NAME, null, contentValues);
-
-        // Log the addition of the table row
-        Log.v(LOG_TAG, "New row ID " + rowId);
+        getContentResolver().insert(BookEntry.CONTENT_URI, contentValues);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         return true;
     }
 
@@ -140,9 +143,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Execute action based on menu option selected
         switch (item.getItemId()) {
+            // "Insert dummy" menu item selected
             case R.id.action_insert_dummy_data:
                 insertBook();
                 displayDatabaseEntries();
+                return true;
+
+            // "Delete all entries" menu item selected
+            case R.id.action_delete_all_entries:
+                // TODO: Implement function to delete all items
                 return true;
         }
 

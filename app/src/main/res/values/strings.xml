@@ -8,6 +8,10 @@
     <string name="action_insert_dummy_data">Insert dummy data</string>
     <string name="action_delete_all_entries">Delete all entries</string>
 
+    <!-- MainActivity Empty Message Strings -->
+    <string name="activity_main_empty_text_title">There are no books</string>
+    <string name="activity_main_empty_text_subtitle">Get started by adding a book</string>
+
     <!-- Dummy Data -->
     <string name="dummy_data_product_name">Tales of the Sea</string>
     <string name="dummy_data_price">0.00</string>

@@ -1,15 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text_view_inventory"
+    <ListView
+        android:id="@+id/activity_main_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/activity_margin"
-        tools:text="@string/tools_example_text" />
+        android:layout_height="match_parent" />
 
-</LinearLayout>
+    <!-- Empty view used when there are no items in the list -->
+    <RelativeLayout
+        android:id="@+id/activity_main_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/text_view_inventory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/activity_main_empty_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textStyle="bold"
+            tools:text="@string/activity_main_empty_text_title" />
+
+        <TextView
+            android:id="@+id/activity_main_empty_text_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_main_empty_text_title"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:paddingTop="8dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            tools:text="@string/activity_main_empty_text_subtitle" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_main_floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:tint="@android:color/background_light"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+</RelativeLayout>
