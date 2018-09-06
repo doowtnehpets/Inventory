@@ -14,8 +14,13 @@
 
     <!-- Dummy Data -->
     <string name="dummy_data_product_name">Tales of the Sea</string>
-    <string name="dummy_data_price">0.00</string>
+    <string name="dummy_data_price">$0.00</string>
+    <string name="dummy_data_quantity">12</string>
     <string name="dummy_data_supplier_name">Jones Books</string>
-    <string name="dummy_data_supplier_phone_number">15555555555</string>
+    <string name="dummy_data_supplier_phone_number">1-555-555-5555</string>
+
+    <!-- List Item -->
+    <string name="list_item_quantity_header">Quantity</string>
+    <string name="list_item_sale_button">Sale</string>
 
 </resources>
