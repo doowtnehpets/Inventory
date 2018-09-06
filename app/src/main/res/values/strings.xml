@@ -4,8 +4,9 @@
     <!-- Tools Strings -->
     <string name="tools_example_text">Example text. Used to fill a text view for previewing layouts.</string>
 
-    <!-- Menu items -->
+    <!-- MainActivity Menu items -->
     <string name="action_insert_dummy_data">Insert dummy data</string>
+    <string name="action_delete_all_entries">Delete all entries</string>
 
     <!-- Dummy Data -->
     <string name="dummy_data_product_name">Tales of the Sea</string>
