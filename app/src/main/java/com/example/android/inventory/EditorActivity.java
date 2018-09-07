@@ -1,8 +1,11 @@
 package com.example.android.inventory;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,7 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class EditorActivity extends AppCompatActivity {
+import com.example.android.inventory.data.BookContract.BookEntry;
+
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // Variables -----------------------------------------------------------------------------------
 
@@ -28,7 +33,7 @@ public class EditorActivity extends AppCompatActivity {
     private Button plusButton;
     private TextView quantityTextView;
     // Quantity amount
-    private int quantity = 0;
+    private int bookQuantity = 0;
     // Boolean to see if the book has been edited
     private boolean bookHasChanged = false;
 
@@ -58,6 +63,8 @@ public class EditorActivity extends AppCompatActivity {
         if (currentBookUri == null) {
             setTitle(getString(R.string.editor_activity_title_add_a_book));
             invalidateOptionsMenu();
+        } else {
+            getLoaderManager().initLoader(EDITOR_LOADER, null, this);
         }
 
         // Grab the views from the layout
@@ -80,8 +87,8 @@ public class EditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // If quantity is already zero, don't decrease it
-                if (quantity > 0) quantity--;
-                quantityTextView.setText(Integer.toString(quantity));
+                if (bookQuantity > 0) bookQuantity--;
+                quantityTextView.setText(Integer.toString(bookQuantity));
                 bookHasChanged = true;
             }
         };
@@ -91,8 +98,8 @@ public class EditorActivity extends AppCompatActivity {
         View.OnClickListener plusOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                quantity++;
-                quantityTextView.setText(Integer.toString(quantity));
+                bookQuantity++;
+                quantityTextView.setText(Integer.toString(bookQuantity));
                 bookHasChanged = true;
             }
         };
@@ -125,5 +132,65 @@ public class EditorActivity extends AppCompatActivity {
         // TODO: Implement menu selected tasks
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Loader Methods ------------------------------------------------------------------------------
+    @NonNull
+    @Override
+    public android.content.Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
+        // Projection for the book we want to load
+        String[] projection = {
+                BookEntry.COLUMN_BOOK_PRODUCT_NAME,
+                BookEntry.COLUMN_BOOK_PRICE,
+                BookEntry.COLUMN_BOOK_QUANTITY,
+                BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
+                BookEntry.COLUMN_BOOK_SUPPLIER_PHONE_NUMBER};
+
+        return new android.content.CursorLoader(this,
+                currentBookUri,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
+        // Load the data if any was returned
+        if (cursor.moveToFirst()) {
+            // Get the column indexes
+            int productNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_PRODUCT_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
+            int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+            int supplierPhoneColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE_NUMBER);
+
+            // Pull the data from the columns
+            String productName = cursor.getString(productNameColumnIndex);
+            String price = cursor.getString(priceColumnIndex);
+            String quantity = cursor.getString(quantityColumnIndex);
+            String supplierName = cursor.getString(supplierNameColumnIndex);
+            String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
+
+            // Set the data pulled onto the objects
+            productNameEditText.setText(productName);
+            priceEditText.setText(price);
+            quantityTextView.setText(quantity);
+            supplierNameEditText.setText(supplierName);
+            supplierPhoneEditText.setText(supplierPhone);
+
+            // Set the global variable for the quantity of books
+            bookQuantity = Integer.parseInt(quantity);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+        // Invalidate the data
+        productNameEditText.setText("");
+        priceEditText.setText("");
+        quantityTextView.setText("");
+        supplierNameEditText.setText("");
+        supplierPhoneEditText.setText("");
     }
 }
