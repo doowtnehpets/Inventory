@@ -38,9 +38,15 @@
     <string name="menu_editor_save">Save</string>
     <string name="menu_editor_delete">Delete</string>
 
+    <!-- EditorActivity Success or Failure Messages -->
+    <string name="editor_insert_book_failed">Error saving book</string>
+    <string name="editor_insert_book_successful">Book saved</string>
+    <string name="editor_update_book_failed">Error updating book</string>
+    <string name="editor_update_book_successful">Book updated</string>
+
     <!-- Dummy Data -->
     <string name="dummy_data_product_name">Tales of the Sea</string>
-    <string name="dummy_data_price">$0.00</string>
+    <string name="dummy_data_price">0.00</string>
     <string name="dummy_data_quantity">12</string>
     <string name="dummy_data_supplier_name">Jones Books</string>
     <string name="dummy_data_supplier_phone_number">1–555–555–5555</string>

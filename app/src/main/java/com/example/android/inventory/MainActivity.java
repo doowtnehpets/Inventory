@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     // BookCursorAdapter adapter for the ListView
     BookCursorAdapter bookCursorAdapter;
 
-    // onCreate ------------------------------------------------------------------------------------
+    // Activity Life Cycle Methods -----------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

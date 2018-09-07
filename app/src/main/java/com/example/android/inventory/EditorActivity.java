@@ -1,12 +1,14 @@
 package com.example.android.inventory;
 
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventory.data.BookContract.BookEntry;
 
@@ -24,6 +27,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     // Editor loader ID
     private static final int EDITOR_LOADER = 1;
+
     // EditText, Button and TextView fields to pull data from the layout
     private EditText productNameEditText;
     private EditText priceEditText;
@@ -32,8 +36,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private Button minusButton;
     private Button plusButton;
     private TextView quantityTextView;
+
     // Quantity amount
     private int bookQuantity = 0;
+
     // Boolean to see if the book has been edited
     private boolean bookHasChanged = false;
 
@@ -49,7 +55,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     // Book URI to store what was passed from the intent
     private Uri currentBookUri;
 
-    // onCreate ------------------------------------------------------------------------------------
+    // Activity Life Cycle Methods -----------------------------------------------------------------
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,9 +135,70 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO: Implement menu selected tasks
+        switch (item.getItemId()) {
+            // "Save" selected from menu
+            case R.id.menu_editor_save:
+                saveBook();
+                finish();
+                return true;
+            // "Delete" selected from menu
+            case R.id.menu_editor_delete:
+                // TODO: Show delete confirmation dialog
+                return true;
+            // "Up" arrow selected
+            case android.R.id.home:
+                if (!bookHasChanged) {
+                    NavUtils.navigateUpFromSameTask(this);
+                    return true;
+                }
+                // TODO: set up dialog for unsaved changes
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Helper Methods ------------------------------------------------------------------------------
+
+    // Save the pet based on info supplied by the user
+    private void saveBook() {
+        // Read the data from the fields
+        String productName = productNameEditText.getText().toString().trim();
+        String price = priceEditText.getText().toString().trim();
+        String quantity = Integer.toString(bookQuantity);
+        String supplierName = supplierNameEditText.getText().toString().trim();
+        String supplierPhone = supplierPhoneEditText.getText().toString().trim();
+
+        // TODO: Check data before putting it into the ContentValues
+
+        // Create the ContentValue object and put the information in it
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(BookEntry.COLUMN_BOOK_PRODUCT_NAME, productName);
+        contentValues.put(BookEntry.COLUMN_BOOK_PRICE, price);
+        contentValues.put(BookEntry.COLUMN_BOOK_QUANTITY, quantity);
+        contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierName);
+        contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE_NUMBER, supplierPhone);
+
+        // Save the book data
+        if (currentBookUri == null) {
+            // New book, so insert into the database
+            Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, contentValues);
+
+            // Show toast if successful or not
+            if (newUri == null)
+                Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
+        } else {
+            // Existing book, so save changes
+            int rowsAffected = getContentResolver().update(currentBookUri, contentValues, null, null);
+
+            // Show toast if successful or not
+            if (rowsAffected == 0)
+                Toast.makeText(this, getString(R.string.editor_update_book_failed), Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, getString(R.string.editor_update_book_successful), Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     // Loader Methods ------------------------------------------------------------------------------
