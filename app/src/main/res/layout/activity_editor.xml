@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
+    tools:context=".EditorActivity">
+
+    <!-- Product Name -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Product Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/activity_editor_product_name"
+            tools:text="@string/activity_editor_product_name" />
+
+        <!-- Product Input Field -->
+        <EditText
+            android:id="@+id/activity_editor_product_name_edit_text"
+            style="@style/EditTextStyle"
+            android:hint="@string/activity_editor_product_name_hint"
+            android:inputType="textCapWords" />
+    </LinearLayout>
+
+
+    <!-- Price -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Price Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/activity_editor_price"
+            tools:text="@string/activity_editor_price" />
+
+        <!-- Price Input -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingLeft="4dp">
+
+            <!-- $ before the price -->
+            <TextView
+                android:id="@+id/activity_editor_price_unit"
+                style="@style/UnitsStyle"
+                android:text="@string/activity_editor_price_unit_$" />
+
+            <!-- Price Input Field -->
+            <EditText
+                android:id="@+id/activity_editor_price_edit_text"
+                style="@style/EditTextStyle"
+                android:hint="@string/activity_editor_price_hint"
+                android:inputType="numberDecimal"
+                android:paddingStart="16dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
