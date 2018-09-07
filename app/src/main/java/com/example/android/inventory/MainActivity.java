@@ -1,9 +1,11 @@
 package com.example.android.inventory;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.android.inventory.data.BookContract.BookEntry;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    // Variables -----------------------------------------------------------------------------------
 
     // Log tag
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     // BookCursorAdapter adapter for the ListView
     BookCursorAdapter bookCursorAdapter;
 
+    // onCreate ------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Start the editor activity once implemented
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
@@ -47,19 +50,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Grab the ListView for the books
         ListView bookListView = findViewById(R.id.activity_main_list_view);
 
-        // Find and set empty view on the ListView, so that it only shows when the list has 0 items
+        // Find and set empty view on the ListView, so that it shows when the list has 0 items
         View emptyView = findViewById(R.id.activity_main_empty_view);
         bookListView.setEmptyView(emptyView);
 
-        // Set up the Cursor adapter
+        // Set up the Cursor adapter to the ListView
         bookCursorAdapter = new BookCursorAdapter(this, null, 0);
         bookListView.setAdapter(bookCursorAdapter);
 
+        // OnItemClickListener for when an item in the list is selected
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: implement click function to start editor activity
-                Toast.makeText(MainActivity.this, "Item Click!", Toast.LENGTH_SHORT).show();
+                // Create an Intent and pass the current book Uri to the EditorActivity
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
+                intent.setData(currentBookUri);
+                startActivity(intent);
             }
         });
 
@@ -72,22 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onStart();
     }
 
-    /**
-     * Add a book to the database using made up data
-     */
-    private void insertBook() {
-        // Create a ContentValues object to insert a row into the database
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(BookEntry.COLUMN_BOOK_PRODUCT_NAME, getString(R.string.dummy_data_product_name));
-        contentValues.put(BookEntry.COLUMN_BOOK_PRICE, getString(R.string.dummy_data_price));
-        contentValues.put(BookEntry.COLUMN_BOOK_QUANTITY, getString(R.string.dummy_data_quantity));
-        contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, getString(R.string.dummy_data_supplier_name));
-        contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE_NUMBER, getString(R.string.dummy_data_supplier_phone_number));
-
-        // Insert a new row using the dummy data
-        getContentResolver().insert(BookEntry.CONTENT_URI, contentValues);
-    }
-
+    // Options Menu --------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options
@@ -113,6 +105,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
+    // Helper methods ------------------------------------------------------------------------------
+
+    /**
+     * Add a book to the database using made up data
+     */
+    private void insertBook() {
+        // Create a ContentValues object to insert a row into the database
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(BookEntry.COLUMN_BOOK_PRODUCT_NAME, getString(R.string.dummy_data_product_name));
+        contentValues.put(BookEntry.COLUMN_BOOK_PRICE, getString(R.string.dummy_data_price));
+        contentValues.put(BookEntry.COLUMN_BOOK_QUANTITY, getString(R.string.dummy_data_quantity));
+        contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, getString(R.string.dummy_data_supplier_name));
+        contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE_NUMBER, getString(R.string.dummy_data_supplier_phone_number));
+
+        // Insert a new row using the dummy data
+        getContentResolver().insert(BookEntry.CONTENT_URI, contentValues);
+    }
+
     /**
      * Helper method to delete all books
      */
@@ -121,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.v(LOG_TAG, rowsDeleted + " rows deleted from database");
     }
 
+    // Loader --------------------------------------------------------------------------------------
     @Override
     public android.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Define a projection that specifies the columns we want

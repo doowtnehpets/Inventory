@@ -95,19 +95,22 @@
             android:paddingStart="4dp">
 
             <Button
+                android:id="@+id/activity_editor_minus_button"
                 android:layout_width="@dimen/button_width_and_height"
                 android:layout_height="@dimen/button_width_and_height"
                 android:text="-" />
 
             <TextView
+                android:id="@+id/activity_editor_quantity_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="0"
+                android:text="@string/activity_editor_quantity_text_view"
                 android:textAppearance="?android:textAppearanceLarge" />
 
             <Button
+                android:id="@+id/activity_editor_plus_button"
                 android:layout_width="@dimen/button_width_and_height"
                 android:layout_height="@dimen/button_width_and_height"
                 android:text="+" />
