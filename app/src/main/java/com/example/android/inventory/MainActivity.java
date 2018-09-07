@@ -2,6 +2,7 @@ package com.example.android.inventory;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onClick(View view) {
                 // TODO: Start the editor activity once implemented
-                Toast.makeText(MainActivity.this, " FAB Click!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                startActivity(intent);
             }
         });
 

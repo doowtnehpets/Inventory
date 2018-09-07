@@ -7,7 +7,7 @@
     android:padding="@dimen/activity_margin"
     tools:context=".EditorActivity">
 
-    <!-- Product Name -->
+    <!-- Product Name ***************************************************************************-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,41 +16,49 @@
         <!-- Product Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="@string/activity_editor_product_name"
-            tools:text="@string/activity_editor_product_name" />
+            android:text="@string/activity_editor_product_name" />
 
         <!-- Product Input Field -->
-        <EditText
-            android:id="@+id/activity_editor_product_name_edit_text"
-            style="@style/EditTextStyle"
-            android:hint="@string/activity_editor_product_name_hint"
-            android:inputType="textCapWords" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingLeft="4dp">
+
+            <EditText
+                android:id="@+id/activity_editor_product_name_edit_text"
+                style="@style/EditTextStyle"
+                android:hint="@string/activity_editor_product_name_hint"
+                android:inputType="textCapWords" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-
-    <!-- Price -->
+    <!-- Price **********************************************************************************-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <!-- Price Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="@string/activity_editor_price"
-            tools:text="@string/activity_editor_price" />
+            android:text="@string/activity_editor_price" />
 
         <!-- Price Input -->
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:paddingLeft="4dp">
+            android:paddingLeft="4dp"
+            android:paddingStart="4dp">
 
             <!-- $ before the price -->
             <TextView
-                android:id="@+id/activity_editor_price_unit"
                 style="@style/UnitsStyle"
-                android:text="@string/activity_editor_price_unit_$" />
+                android:text="@string/activity_editor_price_unit" />
 
             <!-- Price Input Field -->
             <EditText
@@ -58,8 +66,112 @@
                 style="@style/EditTextStyle"
                 android:hint="@string/activity_editor_price_hint"
                 android:inputType="numberDecimal"
+                android:paddingLeft="16dp"
                 android:paddingStart="16dp" />
+
         </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- Quantity *******************************************************************************-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Quantity Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/activity_editor_quantity" />
+
+        <!-- Quantity Unit -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:paddingLeft="4dp"
+            android:paddingStart="4dp">
+
+            <Button
+                android:layout_width="@dimen/button_width_and_height"
+                android:layout_height="@dimen/button_width_and_height"
+                android:text="-" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="0"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+            <Button
+                android:layout_width="@dimen/button_width_and_height"
+                android:layout_height="@dimen/button_width_and_height"
+                android:text="+" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Supplier Name **************************************************************************-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Supplier Name Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/activity_editor_supplier_name" />
+
+        <!-- Supplier Name Field -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingLeft="4dp">
+
+            <EditText
+                android:id="@+id/activity_editor_supplier_name_edit_text"
+                style="@style/EditTextStyle"
+                android:hint="@string/activity_editor_supplier_name_hint"
+                android:inputType="textCapWords" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Supplier Phone *************************************************************************-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Supplier Phone Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/activity_editor_supplier_phone" />
+
+        <!-- Supplier Phone Field -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingLeft="4dp">
+
+            <EditText
+                android:id="@+id/activity_editor_supplier_phone_edit_text"
+                style="@style/EditTextStyle"
+                android:hint="@string/activity_editor_supplier_phone_hint"
+                android:inputType="phone" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
