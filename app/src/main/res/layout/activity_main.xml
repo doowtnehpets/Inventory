@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Empty view used when there are no items in the list -->
+    <!-- Empty view used when there are no items in the ListView -->
     <RelativeLayout
         android:id="@+id/activity_main_empty_view"
         android:layout_width="wrap_content"
@@ -19,16 +19,12 @@
         android:layout_centerInParent="true">
 
         <TextView
-            android:id="@+id/text_view_inventory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
             android:id="@+id/activity_main_empty_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
+            android:text="@string/activity_main_empty_text_title"
             android:textAppearance="?android:textAppearanceMedium"
             android:textStyle="bold"
             tools:text="@string/activity_main_empty_text_title" />
@@ -41,11 +37,13 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:paddingTop="8dp"
+            android:text="@string/activity_main_empty_text_subtitle"
             android:textAppearance="?android:textAppearanceSmall"
             tools:text="@string/activity_main_empty_text_subtitle" />
 
     </RelativeLayout>
 
+    <!-- Floating action button in the corner -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/activity_main_floating_action_button"
         android:layout_width="wrap_content"

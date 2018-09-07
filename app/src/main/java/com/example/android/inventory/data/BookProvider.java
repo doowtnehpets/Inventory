@@ -69,6 +69,9 @@ public class BookProvider extends ContentProvider {
                 return null;
         }
 
+        // Set the notification URI on the cursor
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return cursor;
     }
 

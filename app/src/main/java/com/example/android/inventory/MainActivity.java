@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onClick(View view) {
                 // TODO: Start the editor activity once implemented
+                Toast.makeText(MainActivity.this, " FAB Click!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: implement click function to start editor activity
-                Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Item Click!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     /**
-     * Add a pet to the database using made up data
+     * Add a book to the database using made up data
      */
     private void insertBook() {
         // Create a ContentValues object to insert a row into the database
@@ -102,11 +104,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             // "Delete all entries" menu item selected
             case R.id.action_delete_all_entries:
-                // TODO: Implement function to delete all items
+                deleteAllBooks();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Helper method to delete all books
+     */
+    private void deleteAllBooks() {
+        int rowsDeleted = getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
+        Log.v(LOG_TAG, rowsDeleted + " rows deleted from database");
     }
 
     @Override
@@ -125,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 null,
                 null,
                 null);
-
     }
 
     @Override

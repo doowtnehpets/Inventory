@@ -9,7 +9,7 @@
     <string name="action_delete_all_entries">Delete all entries</string>
 
     <!-- MainActivity Empty Message Strings -->
-    <string name="activity_main_empty_text_title">There are no books</string>
+    <string name="activity_main_empty_text_title">There are no books in inventory</string>
     <string name="activity_main_empty_text_subtitle">Get started by adding a book</string>
 
     <!-- Dummy Data -->
