@@ -73,4 +73,8 @@
     <!-- Sale Button Error Message -->
     <string name="out_of_stock_message">Out of stock! Please order some more books</string>
 
+    <!-- Symbols -->
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+
 </resources>

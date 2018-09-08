@@ -98,7 +98,7 @@
                 android:id="@+id/activity_editor_minus_button"
                 android:layout_width="@dimen/button_width_and_height"
                 android:layout_height="@dimen/button_width_and_height"
-                android:text="-" />
+                android:text="@string/minus_sign" />
 
             <TextView
                 android:id="@+id/activity_editor_quantity_text_view"
@@ -113,7 +113,7 @@
                 android:id="@+id/activity_editor_plus_button"
                 android:layout_width="@dimen/button_width_and_height"
                 android:layout_height="@dimen/button_width_and_height"
-                android:text="+" />
+                android:text="@string/plus_sign" />
 
         </LinearLayout>
 
