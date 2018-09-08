@@ -173,7 +173,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return;
         }
 
-        // Format the price so it only has 2 decimal places at most.
+        // Format the price so it has 2 decimal places
         String priceFormatted = "0.00";
         if (price != null && !price.isEmpty())
             priceFormatted = String.format(java.util.Locale.getDefault(), "%.2f", Float.parseFloat(price));

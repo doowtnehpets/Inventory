@@ -54,5 +54,6 @@
     <!-- List Item -->
     <string name="list_item_quantity_header">Quantity</string>
     <string name="list_item_sale_button">Sale</string>
+    <string name="out_of_stock_message">Out of stock! Please order some more</string>
 
 </resources>
