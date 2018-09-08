@@ -108,7 +108,7 @@ public class BookProvider extends ContentProvider {
     private Uri insertBook(Uri uri, ContentValues contentValues) {
         // Check the product name is valid
         String productName = contentValues.getAsString(BookEntry.COLUMN_BOOK_PRODUCT_NAME);
-        if (productName == null) return null;
+        if (productName == null || productName.isEmpty()) return null;
 
         // No need to check price, quantity, supplier name or phone number as there's defaults
 

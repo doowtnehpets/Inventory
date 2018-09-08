@@ -139,7 +139,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // "Save" selected from menu
             case R.id.menu_editor_save:
                 saveBook();
-                finish();
                 return true;
             // "Delete" selected from menu
             case R.id.menu_editor_delete:
@@ -159,7 +158,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     // Helper Methods ------------------------------------------------------------------------------
 
-    // Save the pet based on info supplied by the user
+    // Save the book based on info supplied by the user
     private void saveBook() {
         // Read the data from the fields
         String productName = productNameEditText.getText().toString().trim();
@@ -168,12 +167,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierName = supplierNameEditText.getText().toString().trim();
         String supplierPhone = supplierPhoneEditText.getText().toString().trim();
 
-        // TODO: Check data before putting it into the ContentValues
+        // Check if the product name is null or empty, throw error message and return early if so
+        if (productName == null || productName.isEmpty()) {
+            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Format the price so it only has 2 decimal places at most.
+        String priceFormatted = "0.00";
+        if (price != null && !price.isEmpty())
+            priceFormatted = String.format(java.util.Locale.getDefault(), "%.2f", Float.parseFloat(price));
 
         // Create the ContentValue object and put the information in it
         ContentValues contentValues = new ContentValues();
         contentValues.put(BookEntry.COLUMN_BOOK_PRODUCT_NAME, productName);
-        contentValues.put(BookEntry.COLUMN_BOOK_PRICE, price);
+        contentValues.put(BookEntry.COLUMN_BOOK_PRICE, priceFormatted);
         contentValues.put(BookEntry.COLUMN_BOOK_QUANTITY, quantity);
         contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierName);
         contentValues.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE_NUMBER, supplierPhone);
@@ -199,6 +207,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, getString(R.string.editor_update_book_successful), Toast.LENGTH_SHORT).show();
 
         }
+
+        finish();
     }
 
     // Loader Methods ------------------------------------------------------------------------------

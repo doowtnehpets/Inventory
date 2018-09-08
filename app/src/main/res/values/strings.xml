@@ -29,7 +29,7 @@
     <string name="activity_editor_supplier_name_hint">Name</string>
 
     <string name="activity_editor_supplier_phone">Supplier Phone</string>
-    <string name="activity_editor_supplier_phone_hint">1–555–555–5555</string>
+    <string name="activity_editor_supplier_phone_hint">1-555-555-5555</string>
     <string name="activity_editor_quantity_text_view">0</string>
 
     <string name="editor_activity_title_add_a_book">Add a Book</string>

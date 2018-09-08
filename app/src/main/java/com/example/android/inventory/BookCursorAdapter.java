@@ -42,6 +42,9 @@ public class BookCursorAdapter extends CursorAdapter {
         String price = cursor.getString(priceColumnIndex);
         String quantity = cursor.getString(quantityColumnIndex);
 
+        // If price is null or empty, then set to 0.00
+        if (price == null || price.isEmpty()) price = "0.00";
+
         // Set the TextViews to the data pulled from the cursor
         productNameTextView.setText(productName);
         priceTextView.setText(price);
