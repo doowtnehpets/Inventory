@@ -173,6 +173,12 @@
                 android:hint="@string/activity_editor_supplier_phone_hint"
                 android:inputType="phone" />
 
+            <Button
+                android:id="@+id/activity_editor_order_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_editor_order_button" />
+
         </LinearLayout>
 
     </LinearLayout>

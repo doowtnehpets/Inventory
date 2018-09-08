@@ -3,6 +3,7 @@
     <!-- App and Activity Names -->
     <string name="app_name">Inventory</string>
     <string name="editor_activity_name">Edit Book</string>
+    <string name="editor_activity_title_add_a_book">Add a Book</string>
 
     <!-- Tools Strings -->
     <string name="tools_example_text">Example text. Used to fill a text view for previewing layouts.</string>
@@ -32,7 +33,9 @@
     <string name="activity_editor_supplier_phone_hint">1-555-555-5555</string>
     <string name="activity_editor_quantity_text_view">0</string>
 
-    <string name="editor_activity_title_add_a_book">Add a Book</string>
+    <string name="activity_editor_order_button">Order</string>
+
+    <string name="editor_activity_empty_message">Fields cannot be empty</string>
 
     <!-- EditorActivity Menu items -->
     <string name="menu_editor_save">Save</string>
@@ -44,6 +47,18 @@
     <string name="editor_update_book_failed">Error updating book</string>
     <string name="editor_update_book_successful">Book updated</string>
 
+    <!-- EditorActivity delete dialog strings -->
+    <string name="editor_activity_delete_message">Delete this book?</string>
+    <string name="editor_activity_delete_message_positive">Delete</string>
+    <string name="editor_activity_delete_message_negative">Cancel</string>
+    <string name="editor_activity_book_deleted">Book deleted</string>
+    <string name="editor_activity_book_deleted_error">Error deleting book</string>
+
+    <!-- EditorActivity changes dialog strings -->
+    <string name="editor_activity_discard_changes_message">Discard your changes?</string>
+    <string name="editor_activity_discard_changes_positive">Discard</string>
+    <string name="editor_activity_discard_changes_negative">Keep Editing</string>
+
     <!-- Dummy Data -->
     <string name="dummy_data_product_name">Tales of the Sea</string>
     <string name="dummy_data_price">0.00</string>
@@ -54,6 +69,8 @@
     <!-- List Item -->
     <string name="list_item_quantity_header">Quantity</string>
     <string name="list_item_sale_button">Sale</string>
-    <string name="out_of_stock_message">Out of stock! Please order some more</string>
+
+    <!-- Sale Button Error Message -->
+    <string name="out_of_stock_message">Out of stock! Please order some more books</string>
 
 </resources>

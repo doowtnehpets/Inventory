@@ -1,7 +1,9 @@
 package com.example.android.inventory;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -35,6 +37,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText supplierPhoneEditText;
     private Button minusButton;
     private Button plusButton;
+    private Button orderButton;
     private TextView quantityTextView;
 
     // Quantity amount
@@ -81,6 +84,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         minusButton = findViewById(R.id.activity_editor_minus_button);
         plusButton = findViewById(R.id.activity_editor_plus_button);
         quantityTextView = findViewById(R.id.activity_editor_quantity_text_view);
+        orderButton = findViewById(R.id.activity_editor_order_button);
 
         // Set up the OnTouchListener for the input fields
         productNameEditText.setOnTouchListener(touchListener);
@@ -110,6 +114,41 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         };
         plusButton.setOnClickListener(plusOnClickListener);
+
+        // Set up the order button to dial the vendor, if it's a new entry hide the order button
+        if (currentBookUri == null) {
+            orderButton.setVisibility(View.GONE);
+        } else {
+            View.OnClickListener orderOnClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Start phone dial intent
+                    String phoneNumber = supplierPhoneEditText.getText().toString().trim();
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + phoneNumber));
+                    startActivity(intent);
+                }
+            };
+            orderButton.setOnClickListener(orderOnClickListener);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // If the book hasn't change, continue back press
+        if (!bookHasChanged) {
+            super.onBackPressed();
+            return;
+        }
+
+        DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        };
+
+        showUnsavedChangesDialog(discardButtonClickListener);
     }
 
     // Options Menu --------------------------------------------------------------------------------
@@ -140,17 +179,27 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             case R.id.menu_editor_save:
                 saveBook();
                 return true;
+
             // "Delete" selected from menu
             case R.id.menu_editor_delete:
-                // TODO: Show delete confirmation dialog
+                showDeleteConfirmationDialog();
                 return true;
+
             // "Up" arrow selected
             case android.R.id.home:
                 if (!bookHasChanged) {
                     NavUtils.navigateUpFromSameTask(this);
                     return true;
                 }
-                // TODO: set up dialog for unsaved changes
+                DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                };
+
+                showUnsavedChangesDialog(discardButtonClickListener);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -167,16 +216,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierName = supplierNameEditText.getText().toString().trim();
         String supplierPhone = supplierPhoneEditText.getText().toString().trim();
 
-        // Check if the product name is null or empty, throw error message and return early if so
-        if (productName == null || productName.isEmpty()) {
-            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+        // Check if any field is null or empty, throw error message and return early if so
+        if (productName.isEmpty() || price.isEmpty() ||
+                quantity.isEmpty() || supplierName.isEmpty() ||
+                supplierPhone.isEmpty()) {
+            Toast.makeText(this, R.string.editor_activity_empty_message, Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Format the price so it has 2 decimal places
-        String priceFormatted = "0.00";
-        if (price != null && !price.isEmpty())
-            priceFormatted = String.format(java.util.Locale.getDefault(), "%.2f", Float.parseFloat(price));
+        String priceFormatted = String.format(java.util.Locale.getDefault(), "%.2f", Float.parseFloat(price));
 
         // Create the ContentValue object and put the information in it
         ContentValues contentValues = new ContentValues();
@@ -209,6 +258,68 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         finish();
+    }
+
+    // Confirm the deletion of an entry
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder to display a confirmation message about deleting the book
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.editor_activity_delete_message);
+        builder.setPositiveButton(getString(R.string.editor_activity_delete_message_positive),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // User clicked "Delete"
+                        deleteBook();
+                    }
+                });
+
+        builder.setNegativeButton(getString(R.string.editor_activity_delete_message_negative),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // User clicked "Cancel"
+                        if (dialogInterface != null)
+                            dialogInterface.dismiss();
+                    }
+                });
+
+        // Create and show the dialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    // Delete the current book from the database
+    private void deleteBook() {
+        if (currentBookUri != null) {
+            int rowsDeleted = getContentResolver().delete(currentBookUri, null, null);
+
+            // Confirmation or failure message on whether row was deleted from database
+            if (rowsDeleted == 0)
+                Toast.makeText(this, R.string.editor_activity_book_deleted_error, Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, R.string.editor_activity_book_deleted, Toast.LENGTH_SHORT).show();
+        }
+        finish();
+    }
+
+    // Show a dialog about unsaved changes to the data
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
+        // Create an AlertDialog.Builder and set the message and click listeners
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.editor_activity_discard_changes_message);
+        builder.setPositiveButton(R.string.editor_activity_discard_changes_positive, discardButtonClickListener);
+        builder.setNegativeButton(R.string.editor_activity_discard_changes_negative, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null)
+                    dialog.dismiss();
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     // Loader Methods ------------------------------------------------------------------------------
