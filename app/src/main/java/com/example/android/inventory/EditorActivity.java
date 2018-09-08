@@ -216,7 +216,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierName = supplierNameEditText.getText().toString().trim();
         String supplierPhone = supplierPhoneEditText.getText().toString().trim();
 
-        // Check if any field is null or empty, throw error message and return early if so
+        // Check if any fields are empty, throw error message and return early if so
         if (productName.isEmpty() || price.isEmpty() ||
                 quantity.isEmpty() || supplierName.isEmpty() ||
                 supplierPhone.isEmpty()) {
